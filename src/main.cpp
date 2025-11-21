@@ -42,6 +42,11 @@ int main()
         window.close();
     }
 
+    if (event.type == sf::Event::MouseButtonPressed)
+    {
+        game.mouseButtonPressed(event);
+    }
+
 
     //'update' element of the game loop
     game.update(dt);

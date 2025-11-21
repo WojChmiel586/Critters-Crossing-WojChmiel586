@@ -33,7 +33,17 @@ void Game::mouseClicked(sf::Event event)
 {
   //get the click position
   sf::Vector2i click = sf::Mouse::getPosition(window);
+  sf::Vector2f clickf = static_cast<sf::Vector2f>(click);
 
+  if (test->getGlobalBounds().contains(clickf))
+  {
+	  draggable = *test;
+  }
+
+}
+
+void Game::mouseButtonPressed(sf::Event event)
+{
 
 }
 

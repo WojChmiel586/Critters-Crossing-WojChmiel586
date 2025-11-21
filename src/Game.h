@@ -13,13 +13,13 @@ class Game
   void update(float dt);
   void render();
   void mouseClicked(sf::Event event);
+  void mouseButtonPressed(sf::Event event);
   void keyPressed(sf::Event event);
 
  private:
   sf::RenderWindow& window;
-  sf::Sprite ball;
-  sf::Texture ball_texture;
-
+  std::unique_ptr<sf::Sprite> test = std::make_unique<sf::Sprite>();
+  sf::Sprite draggable;
 };
 
 #endif // PLATFORMER_GAME_H

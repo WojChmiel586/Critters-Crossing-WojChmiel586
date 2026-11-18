@@ -14,16 +14,17 @@ class Game
   void update(float dt);
   void render();
   void mouseClicked(sf::Event event);
-  void mouseButtonPressed(sf::Event event);
-  void mouseButtonReleased(sf::Event event);
-  void keyPressed(sf::Event event);
+  void mouseButtonPressed(const sf::Event::MouseButtonPressed* event);
+  void mouseButtonReleased(const sf::Event::MouseButtonReleased* event);
+  void keyPressed(const sf::Event::KeyPressed* event);
+  void keyReleased(const sf::Event::KeyReleased* event);
   void dragSprite(sf::Sprite& sprite);
 
   void newAnimal();
 
  private:
   sf::RenderWindow& window;
-  sf::Sprite draggable;
+  std::unique_ptr<sf::Sprite> draggable;
 
   std::unique_ptr<GameObject> character;
   std::unique_ptr<GameObject> passport;

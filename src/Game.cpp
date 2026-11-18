@@ -59,6 +59,7 @@ bool Game::init()
 	}
 
 	newAnimal();
+
   return true;
 }
 
@@ -82,10 +83,10 @@ void Game::mouseClicked(sf::Event event)
   sf::Vector2i click = sf::Mouse::getPosition(window);
 }
 
-void Game::mouseButtonPressed(sf::Event event)
+void Game::mouseButtonPressed(const sf::Event::MouseButtonPressed* event)
 {
 	std::cout << "Mouse Button Pressed" << std::endl;
-	if (event.mouseButton.button == sf::Mouse::Left)
+	if (event->button == sf::Mouse::Button::Left)
 	{
 		sf::Vector2i click = sf::Mouse::getPosition(window);
 		sf::Vector2f clickf = static_cast<sf::Vector2f>(click);
@@ -95,14 +96,25 @@ void Game::mouseButtonPressed(sf::Event event)
 	}
 }
 
-void Game::mouseButtonReleased(sf::Event event)
+void Game::mouseButtonReleased(const sf::Event::MouseButtonReleased* event)
 {
 	std::cout << "Mouse Button Released" << std::endl;
 	dragging = false;
 }
 
-void Game::keyPressed(sf::Event event)
+void Game::keyPressed(const sf::Event::KeyPressed* event)
 {
+
+}
+
+// Called by event polling when a KeyReleased event is found
+void Game::keyReleased(const sf::Event::KeyReleased* event)
+{
+	// Works the same way as KeyPressed
+	if (event->scancode == sf::Keyboard::Scancode::W)
+	{
+		// W was released
+	}
 
 }
 
@@ -112,7 +124,7 @@ void Game::dragSprite(sf::Sprite& sprite)
 	sf::Vector2f mouse_positionf = static_cast<sf::Vector2f>(mouse_position);
 
 	sf::Vector2f drag_position = mouse_positionf;
-	sprite.setPosition(drag_position.x, drag_position.y);
+	sprite.setPosition({ drag_position.x, drag_position.y });
 }
 
 void Game::newAnimal()
@@ -133,12 +145,12 @@ void Game::newAnimal()
 	}
 
 	character->GetSprite().setTexture(*animals[animal_index], true);
-	character->GetSprite().setScale(1.8, 1.8);
-	character->GetSprite().setPosition(window.getSize().x / 12, window.getSize().y / 12);
+	character->GetSprite().setScale({ 1.8, 1.8 });
+	character->GetSprite().setPosition({ window.getSize().x / 12, window.getSize().y / 12 });
 
 	passport->GetSprite().setTexture(*passports[passport_index], true);
-	passport->GetSprite().setScale(0.6, 0.6);
-	passport->GetSprite().setPosition(window.getSize().x / 2, window.getSize().y / 2);
+	passport->GetSprite().setScale({ 0.6, 0.6 });
+	passport->GetSprite().setPosition({ window.getSize().x / 2, window.getSize().y / 2 });
 }
 
 

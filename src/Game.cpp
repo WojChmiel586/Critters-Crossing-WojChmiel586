@@ -18,6 +18,8 @@ bool Game::init()
 	character = std::make_unique<GameObject>();
 	passport = std::make_unique<GameObject>();
 
+
+
 	animals.reserve(6);
 	passports.reserve(6);
 
@@ -60,6 +62,14 @@ bool Game::init()
 
 	newAnimal();
 
+	background_tex = std::make_unique<sf::Texture>();
+	if (!background_tex->loadFromFile("../Data/Critter Crossing Customs/background.png"))
+	{
+		std::cout << "Failed to load texture" << std::endl;
+	}
+	background = std::make_unique<sf::Sprite>(*background_tex);
+
+
   return true;
 }
 
@@ -73,6 +83,7 @@ void Game::update(float dt)
 
 void Game::render()
 {
+	window.draw(*background);
 	window.draw(character->GetSprite());
 	window.draw(passport->GetSprite());
 }
@@ -145,12 +156,12 @@ void Game::newAnimal()
 	}
 
 	character->GetSprite().setTexture(*animals[animal_index], true);
-	character->GetSprite().setScale({ 1.8, 1.8 });
-	character->GetSprite().setPosition({ window.getSize().x / 12, window.getSize().y / 12 });
+	character->GetSprite().setScale({ 1.8f, 1.8f });
+	character->GetSprite().setPosition({ window.getSize().x / 12.0f, window.getSize().y / 12.0f });
 
 	passport->GetSprite().setTexture(*passports[passport_index], true);
 	passport->GetSprite().setScale({ 0.6, 0.6 });
-	passport->GetSprite().setPosition({ window.getSize().x / 2, window.getSize().y / 2 });
+	passport->GetSprite().setPosition({ window.getSize().x / 2.0f, window.getSize().y / 2.0f });
 }
 
 

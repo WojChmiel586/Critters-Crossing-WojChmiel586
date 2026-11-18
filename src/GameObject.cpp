@@ -2,7 +2,8 @@
 
 GameObject::GameObject()
 {
-	sprite = std::make_unique<sf::Sprite>();
+	texture = std::make_unique<sf::Texture>();
+	sprite = std::make_unique<sf::Sprite>(*texture);
 }
 
 sf::Sprite& GameObject::GetSprite()

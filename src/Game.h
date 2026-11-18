@@ -29,6 +29,10 @@ class Game
   std::unique_ptr<GameObject> character;
   std::unique_ptr<GameObject> passport;
 
+
+  std::unique_ptr<sf::Sprite> background;
+  std::unique_ptr<sf::Texture> background_tex;
+
   std::vector<std::unique_ptr<sf::Texture>> animals;
   std::vector<std::unique_ptr<sf::Texture>> passports;
 

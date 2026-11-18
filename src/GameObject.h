@@ -14,5 +14,6 @@ public:
 
 private:
 	std::unique_ptr<sf::Sprite> sprite;
+	std::unique_ptr<sf::Texture> texture;
 	bool isActive = true;
 };

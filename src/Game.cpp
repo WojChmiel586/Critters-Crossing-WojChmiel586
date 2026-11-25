@@ -1,6 +1,7 @@
 
 #include "Game.h"
 #include <iostream>
+#include <math.h>
 
 Game::Game(sf::RenderWindow& game_window)
   : window(game_window)
@@ -10,7 +11,7 @@ Game::Game(sf::RenderWindow& game_window)
 
 Game::~Game()
 {
-
+	delete dragged;
 }
 
 bool Game::init()
@@ -18,7 +19,12 @@ bool Game::init()
 	character = std::make_unique<GameObject>();
 	passport = std::make_unique<GameObject>();
 
+	if(!ninjaTex.loadFromFile("../Data/Images/ninja-walk-side.png"))
+	{
+		std::cout << "failed to load ninja texture";
+	}
 
+	ninja = std::make_unique<AnimatedSprite>(ninjaTex, sf::Vector2u{224, 224});
 
 	animals.reserve(6);
 	passports.reserve(6);
@@ -75,10 +81,12 @@ bool Game::init()
 
 void Game::update(float dt)
 {
-	if (dragging)
+	if (dragged != nullptr)
 	{
-		dragSprite(passport->GetSprite());
+		dragSprite(*dragged);
 	}
+
+	ninja->Update(dt);
 }
 
 void Game::render()
@@ -86,6 +94,8 @@ void Game::render()
 	window.draw(*background);
 	window.draw(character->GetSprite());
 	window.draw(passport->GetSprite());
+
+	ninja->Render(window);
 }
 
 void Game::mouseClicked(sf::Event event)
@@ -101,8 +111,20 @@ void Game::mouseButtonPressed(const sf::Event::MouseButtonPressed* event)
 	{
 		sf::Vector2i click = sf::Mouse::getPosition(window);
 		sf::Vector2f clickf = static_cast<sf::Vector2f>(click);
+		dragged = nullptr;
+		if (passport->GetSprite().getGlobalBounds().contains(clickf))
+		{
+			dragged = &passport->GetSprite();
+		}
+		if (ninja->GetSprite().getGlobalBounds().contains(clickf))
+		{
+			dragged = &ninja->GetSprite();
+		}
 
-		dragging = passport->GetSprite().getGlobalBounds().contains(clickf);
+		if (dragged != nullptr)
+		{
+			drag_offset = dragged->getPosition() - clickf;
+		}
 
 	}
 }
@@ -110,11 +132,29 @@ void Game::mouseButtonPressed(const sf::Event::MouseButtonPressed* event)
 void Game::mouseButtonReleased(const sf::Event::MouseButtonReleased* event)
 {
 	std::cout << "Mouse Button Released" << std::endl;
-	dragging = false;
+	dragged = nullptr;
 }
 
 void Game::keyPressed(const sf::Event::KeyPressed* event)
 {
+	if (event->scancode == sf::Keyboard::Scancode::Up)
+	{
+		ninja->_playbackRate = std::clamp<int>(ninja->_playbackRate + 1, 0, 165);
+	}
+	if (event->scancode == sf::Keyboard::Scancode::Down)
+	{
+		ninja->_playbackRate = std::clamp<int>(ninja->_playbackRate - 1, 0, 165);
+	}
+	if (event->scancode == sf::Keyboard::Scancode::P)
+	{
+		ninja->IsPlaying() ? ninja->Pause() : ninja->Resume();
+	}
+
+	if (event->scancode == sf::Keyboard::Scancode::T)
+	{
+		ninja->IsPlaying() ? ninja->Stop() : ninja->Play();
+	}
+
 
 }
 
@@ -134,7 +174,7 @@ void Game::dragSprite(sf::Sprite& sprite)
 	sf::Vector2i mouse_position = sf::Mouse::getPosition(window);
 	sf::Vector2f mouse_positionf = static_cast<sf::Vector2f>(mouse_position);
 
-	sf::Vector2f drag_position = mouse_positionf;
+	sf::Vector2f drag_position = mouse_positionf + drag_offset;
 	sprite.setPosition({ drag_position.x, drag_position.y });
 }
 

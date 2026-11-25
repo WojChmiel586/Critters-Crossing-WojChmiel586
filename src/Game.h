@@ -3,7 +3,9 @@
 #define PLATFORMER_GAME_H
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "GameObject.h"
+#include "AnimatedSprite.h"
 
 class Game
 {
@@ -29,14 +31,13 @@ class Game
   std::unique_ptr<GameObject> character;
   std::unique_ptr<GameObject> passport;
 
-
   std::unique_ptr<sf::Sprite> background;
   std::unique_ptr<sf::Texture> background_tex;
 
   std::vector<std::unique_ptr<sf::Texture>> animals;
   std::vector<std::unique_ptr<sf::Texture>> passports;
 
-  //sf::Sprite dragged;
+  sf::Sprite* dragged = nullptr;
 
   bool dragging = false;
   bool passport_accepted = false;
@@ -44,6 +45,9 @@ class Game
   bool should_accept = false;
 
   sf::Vector2f drag_offset;
+
+  sf::Texture ninjaTex;
+  std::unique_ptr<AnimatedSprite> ninja;
 };
 
 #endif // PLATFORMER_GAME_H

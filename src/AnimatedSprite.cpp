@@ -16,6 +16,8 @@ void AnimatedSprite::Render(sf::RenderWindow& window)
 {
 	window.draw(_sprite);
 }
+
+
 void AnimatedSprite::Play()
 {
 	_frameIt = 0;
@@ -39,8 +41,6 @@ void AnimatedSprite::Resume()
 {
 	_isPlaying = true;
 }
-
-
 
 
 void AnimatedSprite::Update(const float& dt)
@@ -88,6 +88,7 @@ std::vector<sf::IntRect> AnimatedSprite::CalculateFrames()
 		int xpos, ypos;
 		xpos = _frameSize.x * (i % column_count);
 		ypos = _frameSize.y * (i / row_count);
+
 		sf::Vector2i rpos, rsize;
 		rpos = { xpos + (int)_padding, ypos + (int)_padding };
 		rsize = {(int)_frameSize.x,(int)_frameSize.y };

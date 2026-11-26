@@ -4,8 +4,10 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+
 #include "GameObject.h"
 #include "AnimatedSprite.h"
+#include "SoundManager.h"
 
 class Game
 {
@@ -27,19 +29,13 @@ class Game
  private:
   sf::RenderWindow& window;
 
-  std::unique_ptr<sf::Texture> texture;
-  std::unique_ptr < sf::Sprite> sprite;
 
-  std::unique_ptr<sf::SoundBuffer> soundBuffer;
-  std::unique_ptr<sf::Sound> sound;
-
-  std::unique_ptr<sf::Music> music;
 
   std::unique_ptr<GameObject> character;
   std::unique_ptr<GameObject> passport;
 
   std::unique_ptr<sf::Sprite> background;
-  std::unique_ptr<sf::Texture> background_tex;
+  std::unique_ptr<sf::Texture> backgroundTex;
 
   std::vector<std::unique_ptr<sf::Texture>> animals;
   std::vector<std::unique_ptr<sf::Texture>> passports;
@@ -53,10 +49,16 @@ class Game
 
   sf::Vector2f drag_offset;
 
-  
-
+  //Testing AnimatedSprites
   sf::Texture ninjaTex;
   std::unique_ptr<AnimatedSprite> ninja;
+
+  //Sound Manager
+  SoundManager soundManager;
+  std::unique_ptr<sf::SoundBuffer> soundBuffer;
+  std::unique_ptr<sf::Sound> sound;
+
+  std::unique_ptr<sf::Music> music;
 };
 
 #endif // PLATFORMER_GAME_H

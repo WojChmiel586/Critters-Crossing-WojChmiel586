@@ -19,18 +19,6 @@ bool Game::init()
 	character = std::make_unique<GameObject>();
 	passport = std::make_unique<GameObject>();
 
-
-
-
-	//Construct Texture and load data from file
-	texture = std::make_unique<sf::Texture>();
-	if (!texture->loadFromFile("../Data/Critter Crossing Customs/elephant passport.png"))
-	{
-		//Texture failed to load
-	}
-	//Construct Sprite using the Texture as parameter
-	sprite = std::make_unique<sf::Sprite>(*texture);
-
 	//Construct SoundBuffer and load data from file
 	soundBuffer = std::make_unique<sf::SoundBuffer>();
 	if (!soundBuffer->loadFromFile("../Data/Audio/SFX/metalClick.ogg"))
@@ -95,12 +83,19 @@ bool Game::init()
 
 	newAnimal();
 
-	background_tex = std::make_unique<sf::Texture>();
-	if (!background_tex->loadFromFile("../Data/Critter Crossing Customs/background.png"))
+	backgroundTex = std::make_unique<sf::Texture>();
+	if (!backgroundTex->loadFromFile("../Data/Critter Crossing Customs/background.png"))
 	{
 		std::cout << "Failed to load texture" << std::endl;
 	}
-	background = std::make_unique<sf::Sprite>(*background_tex);
+	background = std::make_unique<sf::Sprite>(*backgroundTex);
+
+
+	//SoundManager audio test
+	soundManager.loadMusic("../Data/Audio/Path to Lake Land.ogg");
+	soundManager.loadSound("click", "../Data/Audio/SFX/metalClick.ogg");
+	soundManager.loadSound("click2", "../Data/Audio/SFX/beltHandle1.ogg");
+
 
 
   return true;
@@ -161,6 +156,7 @@ void Game::mouseButtonPressed(const sf::Event::MouseButtonPressed* event)
 
 void Game::mouseButtonReleased(const sf::Event::MouseButtonReleased* event)
 {
+	//soundManager.playSound("click2", false);
 	std::cout << "Mouse Button Released" << std::endl;
 	dragged = nullptr;
 }

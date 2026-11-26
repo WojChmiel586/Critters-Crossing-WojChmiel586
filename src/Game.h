@@ -26,7 +26,14 @@ class Game
 
  private:
   sf::RenderWindow& window;
-  std::unique_ptr<sf::Sprite> draggable;
+
+  std::unique_ptr<sf::Texture> texture;
+  std::unique_ptr < sf::Sprite> sprite;
+
+  std::unique_ptr<sf::SoundBuffer> soundBuffer;
+  std::unique_ptr<sf::Sound> sound;
+
+  std::unique_ptr<sf::Music> music;
 
   std::unique_ptr<GameObject> character;
   std::unique_ptr<GameObject> passport;
@@ -45,6 +52,8 @@ class Game
   bool should_accept = false;
 
   sf::Vector2f drag_offset;
+
+  
 
   sf::Texture ninjaTex;
   std::unique_ptr<AnimatedSprite> ninja;

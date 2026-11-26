@@ -19,6 +19,33 @@ bool Game::init()
 	character = std::make_unique<GameObject>();
 	passport = std::make_unique<GameObject>();
 
+
+
+
+	//Construct Texture and load data from file
+	texture = std::make_unique<sf::Texture>();
+	if (!texture->loadFromFile("../Data/Critter Crossing Customs/elephant passport.png"))
+	{
+		//Texture failed to load
+	}
+	//Construct Sprite using the Texture as parameter
+	sprite = std::make_unique<sf::Sprite>(*texture);
+
+	//Construct SoundBuffer and load data from file
+	soundBuffer = std::make_unique<sf::SoundBuffer>();
+	if (!soundBuffer->loadFromFile("../Data/Audio/SFX/metalClick.ogg"))
+	{
+		//One-shot failed to load
+	}
+	//Construct Sound using the Sound buffer as parameter
+	sound = std::make_unique<sf::Sound>(*soundBuffer);
+
+	music = std::make_unique<sf::Music>();
+	if (!music->openFromFile("../Data/Audio/Path to Lake Land.ogg"))
+	{
+		//Music failed to load
+	}
+
 	if(!ninjaTex.loadFromFile("../Data/Images/ninja-walk-side.png"))
 	{
 		std::cout << "failed to load ninja texture";
@@ -109,7 +136,10 @@ void Game::mouseButtonPressed(const sf::Event::MouseButtonPressed* event)
 	std::cout << "Mouse Button Pressed" << std::endl;
 	if (event->button == sf::Mouse::Button::Left)
 	{
-		sf::Vector2i click = sf::Mouse::getPosition(window);
+		//We play the one click sound when left mouse button is pressed
+		sound->play();
+
+		sf::Vector2i click = event->position;
 		sf::Vector2f clickf = static_cast<sf::Vector2f>(click);
 		dragged = nullptr;
 		if (passport->GetSprite().getGlobalBounds().contains(clickf))
@@ -147,7 +177,13 @@ void Game::keyPressed(const sf::Event::KeyPressed* event)
 	}
 	if (event->scancode == sf::Keyboard::Scancode::P)
 	{
-		ninja->IsPlaying() ? ninja->Pause() : ninja->Resume();
+		//ninja->IsPlaying() ? ninja->Pause() : ninja->Resume();
+		music->play();
+	}
+	if (event->scancode == sf::Keyboard::Scancode::S)
+	{
+		//ninja->IsPlaying() ? ninja->Pause() : ninja->Resume();
+		music->stop();
 	}
 
 	if (event->scancode == sf::Keyboard::Scancode::T)
